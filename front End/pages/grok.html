@@ -13,302 +13,379 @@
     <script type="module" src="../script.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <div class="sidebarContainer">
+    <canvas id="starfield"></canvas>
+    <!-- Header Navigation -->
+    <header class="header-nav">
+        <nav class="nav-content">
+            <div class="nav-left">
+                <button class="close-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
 
+            <div class="demo-wrap">
+                <!-- button / pill -->
+                <button class="status-pill" id="statusBtn" aria-haspopup="true" aria-expanded="false">
+                    <!-- rocket icon (kept similar to original) -->
+                    <svg class="icon" viewBox="0 0 24 24" fill="white" aria-hidden="true">
+                        <path
+                            d="M5 22H2v-3c0-1.654 1.346-3 3-3s3 1.346 3 3-1.346 3-3 3zm-1-2h1c.551 0 1-.449 1-1s-.449-1-1-1-1 .449-1 1v1zm7.594 1.282l-.336-1.145c-.271-.923-.664-1.807-1.166-2.627-.452-.736-.992-1.421-1.607-2.036-.626-.625-1.322-1.173-2.069-1.627-.821-.499-1.706-.888-2.63-1.157l-1.151-.335L5.312 7h5.192c.613-.636 2.015-2.077 2.758-2.744C15.673 2.09 20.704 2.003 20.918 2l1.025-.013-.013 1.025c-.003.213-.09 5.245-2.256 7.656-.643.715-2.004 2.043-2.671 2.688v5.239l-5.407 2.688h-.002zm.64-4.046c.207.396.393.802.557 1.217l2.21-1.099v-2.333l-2.768 2.214zm-3.839-4.468c.531.391 1.034.823 1.503 1.292.459.459.883.951 1.267 1.471l4.104-3.284c.269-.257 2.169-2.084 2.916-2.915 1.084-1.208 1.531-3.667 1.681-5.269-1.602.149-4.061.596-5.268 1.68-.832.748-2.658 2.647-2.916 2.916l-3.287 4.109zM5.47 11.154c.414.163.819.347 1.214.551l2.165-2.706H6.548l-1.077 2.154z" />
+                    </svg>
 
-            <!-- Main Sidebar Container -->
-            <div class="sidebar-container">
-                <div class="sidebar-top">
-                    <!-- Logo -->
-                    <div class="sidebar-logo">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="logo-svg">
-                            <g>
+                    <span class="label" id="statusLabel">Auto</span>
+
+                    <!-- chevron -->
+                    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+
+                <!-- dropdown panel -->
+                <div class="dropdown-panel" id="dropdown" role="menu" aria-labelledby="statusBtn">
+
+                    <!-- Auto item (selected in image) -->
+                    <div class="menu-item" data-value="Auto" role="menuitem" tabindex="0">
+                        <div style="width:28px;display:flex;align-items:center;justify-content:center;opacity:0.95">
+                            <!-- small rocket outline -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="white" aria-hidden="true">
                                 <path
-                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
-                                </path>
-                            </g>
+                                    d="M5 22H2v-3c0-1.654 1.346-3 3-3s3 1.346 3 3-1.346 3-3 3zM5 20v1H4c0-.551.449-1 1-1zM11.234 19.282l-.336-1.145a9.91 9.91 0 0 0-1.166-2.627 10.274 10.274 0 0 0-1.607-2.036 9.63 9.63 0 0 0-2.069-1.627 15.34 15.34 0 0 0-2.63-1.157L2.255 7h5.192c.613-.636 2.015-2.077 2.758-2.744 1.4-1.539 6.431-1.626 6.645-1.629L18.93 3.63c-.003.213-.09 5.245-2.256 7.656-.643.715-2.004 2.043-2.671 2.688v5.239l-2.769 1.409z" />
+                            </svg>
+                        </div>
+                        <div class="meta">
+                            <span class="title">Auto</span>
+                            <span class="desc">Chooses Fast or Expert</span>
+                        </div>
+                        <!-- check mark -->
+                        <svg class="selected-check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
                         </svg>
                     </div>
 
-                    <!-- Navigation Links -->
-                    <nav id="nav-menu">
-                        <a href="../index.html" class="nav-link active">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="nav-icon" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" stroke-width="2">
-                                <path
-                                    d="M21.591 7.146L12.52 1.157c-.316-.21-.724-.21-1.04 0l-9.071 5.99c-.26.173-.409.456-.409.757v13.183c0 .502.418.913.929.913H9.14c.51 0 .929-.41.929-.913v-7.075h3.909v7.075c0 .502.417.913.928.913h6.165c.511 0 .929-.41.929-.913V7.904c0-.301-.158-.584-.408-.758z">
-                                </path>
+                    <!-- Fast item -->
+                    <div class="menu-item" data-value="Fast" role="menuitem" tabindex="0">
+                        <div style="width:28px;display:flex;align-items:center;justify-content:center;opacity:0.95">
+                            <!-- lightning -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline>
                             </svg>
-                            <span class="nav-text">Home</span>
-                        </a>
-                        <a href="explore.html" class="nav-link">
-                            <svg fill="white" viewBox="0 0 24 24" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M10.25 4.25c-3.314 0-6 2.686-6 6s2.686 6 6 6c1.657 0 3.155-.67 4.243-1.757 1.087-1.088 1.757-2.586 1.757-4.243 0-3.314-2.686-6-6-6zm-9 6c0-4.971 4.029-9 9-9s9 4.029 9 9c0 1.943-.617 3.744-1.664 5.215l4.475 4.474-2.122 2.122-4.474-4.475c-1.471 1.047-3.272 1.664-5.215 1.664-4.971 0-9-4.029-9-9z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">Explore</span>
-                        </a>
-                        <a href="notifications.html" class="nav-link">
-                            <svg fill="white" viewBox="0 0 24 24" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M19.993 9.042C19.48 5.017 16.054 2 11.996 2s-7.49 3.021-7.999 7.051L2.866 18H7.1c.463 2.282 2.481 4 4.9 4s4.437-1.718 4.9-4h4.236l-1.143-8.958zM12 20c-1.306 0-2.417-.835-2.829-2h5.658c-.412 1.165-1.523 2-2.829 2zm-6.866-4l.847-6.698C6.364 6.272 8.941 4 11.996 4s5.627 2.268 6.013 5.295L18.864 16H5.134z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">Notifications</span>
-                        </a>
-                        <a href="messages.html" class="nav-link">
-                            <svg fill="white" viewBox="0 0 24 24" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.636V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.636-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">Messages</span>
-                        </a>
-                        <a href="grok.html" class="nav-link">
-                            <svg fill="white" viewBox="0 0 33 32" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M12.745 20.54l10.97-8.19c.539-.4 1.307-.244 1.564.38 1.349 3.288.746 7.241-1.938 9.955-2.683 2.714-6.417 3.31-9.83 1.954l-3.728 1.745c5.347 3.697 11.84 2.782 15.898-1.324 3.219-3.255 4.216-7.692 3.284-11.693l.008.009c-1.351-5.878.332-8.227 3.782-13.031L33 0l-4.54 4.59v-.014L12.743 20.544m-2.263 1.987c-3.837-3.707-3.175-9.446.1-12.755 2.42-2.449 6.388-3.448 9.852-1.979l3.72-1.737c-.67-.49-1.53-1.017-2.515-1.387-4.455-1.854-9.789-.931-13.41 2.728-3.483 3.523-4.579 8.94-2.697 13.561 1.405 3.454-.899 5.898-3.22 8.364C1.49 30.2.666 31.074 0 32l10.478-9.466">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">Grok</span>
-                        </a>
-                        <a href="communities.html" class="nav-link">
-                            <svg fill="white" viewBox="0 0 24 24" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M7.501 19.917L7.471 21H.472l.029-1.027c.184-6.618 3.736-8.977 7-8.977.963 0 1.95.212 2.87.672-.444.478-.851 1.03-1.212 1.656-.507-.204-1.054-.329-1.658-.329-2.767 0-4.57 2.223-4.938 6.004H7.56c-.023.302-.05.599-.059.917zm15.998.056L23.528 21H9.472l.029-1.027c.184-6.618 3.736-8.977 7-8.977s6.816 2.358 7 8.977zM21.437 19c-.367-3.781-2.17-6.004-4.938-6.004s-4.57 2.223-4.938 6.004h9.875zm-4.938-9c-.799 0-1.527-.279-2.116-.73-.836-.64-1.384-1.638-1.384-2.77 0-1.93 1.567-3.5 3.5-3.5s3.5 1.57 3.5 3.5c0 1.132-.548 2.13-1.384 2.77-.589.451-1.317.73-2.116.73zm-1.5-3.5c0 .827.673 1.5 1.5 1.5s1.5-.673 1.5-1.5-.673-1.5-1.5-1.5-1.5.673-1.5 1.5zM7.5 3C9.433 3 11 4.57 11 6.5S9.433 10 7.5 10 4 8.43 4 6.5 5.567 3 7.5 3zm0 2C6.673 5 6 5.673 6 6.5S6.673 8 7.5 8 9 7.327 9 6.5 8.327 5 7.5 5z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">Communities</span>
-                        </a>
-                        <a href="premium.html" class="nav-link">
-                            <svg fill="white" viewBox="0 0 24 24" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">Premium</span>
-                        </a>
-                        <a href="verifiedOrgs.html" class="nav-link">
-                            <svg fill="white" viewBox="0 0 24 24" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M7.323 2h11.443l-3 5h6.648L6.586 22.83 7.847 14H2.523l4.8-12zm1.354 2l-3.2 8h4.676l-.739 5.17L17.586 9h-5.352l3-5H8.677z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">Verified Orgs</span>
-                        </a>
-                        <a href="profile.html" class="nav-link">
-                            <svg fill="white" viewBox="0 0 24 24" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M5.651 19h12.698c-.337-1.8-1.023-3.21-1.945-4.19C15.318 13.65 13.838 13 12 13s-3.317.65-4.404 1.81c-.922.98-1.608 2.39-1.945 4.19zm.486-5.56C7.627 11.85 9.648 11 12 11s4.373.85 5.863 2.44c1.477 1.58 2.366 3.8 2.632 6.46l.11 1.1H3.395l.11-1.1c.266-2.66 1.155-4.88 2.632-6.46zM12 4c-1.105 0-2 .9-2 2s.895 2 2 2 2-.9 2-2-.895-2-2-2zM8 6c0-2.21 1.791-4 4-4s4 1.79 4 4-1.791 4-4 4-4-1.79-4-4z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">Profile</span>
-                        </a>
-                        <!-- "More" button that will trigger the pop-up -->
-                        <div id="more-button" class="nav-link">
-                            <svg fill="white" viewBox="0 0 24 24" aria-hidden="true" class="nav-icon">
-                                <g>
-                                    <path
-                                        d="M3.75 12c0-4.56 3.69-8.25 8.25-8.25s8.25 3.69 8.25 8.25-3.69 8.25-8.25 8.25S3.75 16.56 3.75 12zM12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17.66 1.75 12 1.75zm-4.75 11.5c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25S6 11.31 6 12s.56 1.25 1.25 1.25zm9.5 0c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25-1.25.56-1.25 1.25.56 1.25 1.25 1.25zM13.25 12c0 .69-.56 1.25-1.25 1.25s-1.25-.56-1.25-1.25.56-1.25 1.25-1.25 1.25.56 1.25 1.25z">
-                                    </path>
-                                </g>
-                            </svg>
-                            <span class="nav-text">More</span>
                         </div>
-                    </nav>
-
-                    <!-- Post Button -->
-                    <button id="postButton" class="post-button">
-                        <span class="post-text">Post</span>
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="post-icon" style="color: rgb(15, 20, 25);">
-                            <g>
-                                <path
-                                    d="M23 3c-6.62-.1-10.38 2.421-13.05 6.03C7.29 12.61 6 17.331 6 22h2c0-1.007.07-2.012.19-3H12c4.1 0 7.48-3.082 7.94-7.054C22.79 10.147 23.17 6.359 23 3zm-7 8h-1.5v2H16c.63-.016 1.2-.08 1.72-.188C16.95 15.24 14.68 17 12 17H8.55c.57-2.512 1.57-4.851 3-6.78 2.16-2.912 5.29-4.911 9.45-5.187C20.95 8.079 19.9 11 16 11zM4 9V6H1V4h3V1h2v3h3v2H6v3H4z">
-                                </path>
-                            </g>
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Bottom Section: User Profile -->
-                <div class="user-profile">
-                    <div class="user-content">
-                        <div class="user-details">
-                            <img src="https://placehold.co/40x40/9333ea/white?text=C" alt="User Avatar"
-                                class="user-avatar">
-                            <div class="user-info">
-                                <p class="user-name">CYRUS</p>
-                                <p class="user-handle">@CYRUS3106</p>
-                            </div>
-                        </div>
-                        <div class="user-menu-dots">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="menu-icon" viewBox="0 0 20 20">
-                                <path
-                                    d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                            </svg>
+                        <div class="meta">
+                            <span class="title">Fast</span>
+                            <span class="desc">Quick responses</span>
                         </div>
                     </div>
+
+                    <!-- Expert item -->
+                    <div class="menu-item" data-value="Expert" role="menuitem" tabindex="0">
+                        <div style="width:28px;display:flex;align-items:center;justify-content:center;opacity:0.95">
+                            <!-- bulb -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 18h6M10 22h4M9 9a3 3 0 0 1 6 0c0 1.657-1.343 3-3 3s-3-1.343-3-3z" />
+                            </svg>
+                        </div>
+                        <div class="meta">
+                            <span class="title">Expert</span>
+                            <span class="desc">Thinks hard</span>
+                        </div>
+                    </div>
+
+                    <!-- Grok 4.1 Thinking item -->
+                    <div class="menu-item" data-value="Grok" role="menuitem" tabindex="0">
+                        <div style="width:28px;display:flex;align-items:center;justify-content:center;opacity:0.95">
+                            <!-- moon icon -->
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                            </svg>
+                        </div>
+                        <div class="meta">
+                            <span class="title">Grok 4.1 Thinking</span>
+                            <span class="desc">Thinks fast</span>
+                        </div>
+                    </div>
+
+                    <div class="divider" role="separator"></div>
+
+                    <div class="menu-footer" role="menuitem" tabindex="0">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12h3l3 8 4-16 3 8h4"></path>
+                        </svg>
+                        <a href="#" id="grokLink">Go to grok.com</a>
+                    </div>
+
                 </div>
-                <!-- if color issue of white add fill="white" -->
-                <!-- Pop-up Menu for "More" option -->
-                <div id="more-menu-popup">
-                    <a href="#" class="popup-link">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="popup-icon" data-testid="icon">
-                            <g>
-                                <path
-                                    d="M3 4.5C3 3.12 4.12 2 5.5 2h13C19.88 2 21 3.12 21 4.5v15c0 1.38-1.12 2.5-2.5 2.5h-13C4.12 22 3 20.88 3 19.5v-15zM5.5 4c-.28 0-.5.22-.5.5v15c0 .28.22.5.5.5h13c.28 0 .5-.22.5-.5v-15c0-.28-.22-.5-.5-.5h-13zM16 10H8V8h8v2zm-8 2h8v2H8v-2z">
-                                </path>
-                            </g>
-                        </svg>
-                        <span><b>Lists</b></span>
-                    </a>
-                    <a href="#" class="popup-link">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="popup-icon" data-testid="icon">
-                            <g>
-                                <path
-                                    d="M4 4.5C4 3.12 5.119 2 6.5 2h11C18.881 2 20 3.12 20 4.5v18.44l-8-5.71-8 5.71V4.5zM6.5 4c-.276 0-.5.22-.5.5v14.56l6-4.29 6 4.29V4.5c0-.28-.224-.5-.5-.5h-11z">
-                                </path>
-                            </g>
-                        </svg>
-                        <span><b>Bookmarks</b></span>
-                    </a>
-                    <a href="#" class="popup-link">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="popup-icon" data-testid="icon">
-                            <g>
-                                <path
-                                    d="M23 3v14h-2V5H5V3h18zM10 17c1.1 0 2-1.34 2-3s-.9-3-2-3-2 1.34-2 3 .9 3 2 3zM1 7h18v14H1V7zm16 10c-1.1 0-2 .9-2 2h2v-2zm-2-8c0 1.1.9 2 2 2V9h-2zM3 11c1.1 0 2-.9 2-2H3v2zm0 4c2.21 0 4 1.79 4 4h6c0-2.21 1.79-4 4-4v-2c-2.21 0-4-1.79-4-4H7c0 2.21-1.79 4-4 4v2zm0 4h2c0-1.1-.9-2-2-2v2z">
-                                </path>
-                            </g>
-                        </svg>
-                        <span><b>Monetization</b></span>
-                    </a>
-                    <a href="#" class="popup-link">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="popup-icon" data-testid="icon">
-                            <g>
-                                <path
-                                    d="M1.996 5.5c0-1.38 1.119-2.5 2.5-2.5h15c1.38 0 2.5 1.12 2.5 2.5v13c0 1.38-1.12 2.5-2.5 2.5h-15c-1.381 0-2.5-1.12-2.5-2.5v-13zm2.5-.5c-.277 0-.5.22-.5.5v13c0 .28.223.5.5.5h15c.276 0 .5-.22.5-.5v-13c0-.28-.224-.5-.5-.5h-15zm8.085 5H8.996V8h7v7h-2v-3.59l-5.293 5.3-1.415-1.42L12.581 10z">
-                                </path>
-                            </g>
-                        </svg>
-                        <span><b>Ads</b></span>
-                    </a>
-                    <a href="#" class="popup-link">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="popup-icon" data-testid="icon">
-                            <g>
-                                <path
-                                    d="M19.5 6H17V4.5C17 3.12 15.88 2 14.5 2h-5C8.12 2 7 3.12 7 4.5V6H4.5C3.12 6 2 7.12 2 8.5v10C2 19.88 3.12 21 4.5 21h15c1.38 0 2.5-1.12 2.5-2.5v-10C22 7.12 20.88 6 19.5 6zM9 4.5c0-.28.23-.5.5-.5h5c.28 0 .5.22.5.5V6H9V4.5zm11 14c0 .28-.22.5-.5.5h-15c-.27 0-.5-.22-.5-.5v-3.04c.59.35 1.27.54 2 .54h5v1h2v-1h5c.73 0 1.41-.19 2-.54v3.04zm0-6.49c0 1.1-.9 1.99-2 1.99h-5v-1h-2v1H6c-1.1 0-2-.9-2-2V8.5c0-.28.23-.5.5-.5h15c.28 0 .5.22.5.5v3.51z">
-                                </path>
-                            </g>
-                        </svg>
-                        <span><b>Jobs</b></span>
-                    </a>
-                    <a href="#" class="popup-link">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="popup-icon" data-testid="icon">
-                            <g>
-                                <path
-                                    d="M12 22.25c-4.99 0-9.18-3.393-10.39-7.994l1.93-.512c.99 3.746 4.4 6.506 8.46 6.506s7.47-2.76 8.46-6.506l1.93.512c-1.21 4.601-5.4 7.994-10.39 7.994zM5 11.5c0 3.866 3.13 7 7 7s7-3.134 7-7V8.75c0-3.866-3.13-7-7-7s-7 3.134-7 7v2.75zm12-2.75v2.75c0 2.761-2.24 5-5 5s-5-2.239-5-5V8.75c0-2.761 2.24-5 5-5s5 2.239 5 5zM11.25 8v4.25c0 .414.34.75.75.75s.75-.336.75-.75V8c0-.414-.34-.75-.75-.75s-.75.336-.75.75zm-3 1v2.25c0 .414.34.75.75.75s.75-.336.75-.75V9c0-.414-.34-.75-.75-.75s-.75.336-.75.75zm7.5 0c0-.414-.34-.75-.75-.75s-.75.336-.75.75v2.25c0 .414.34.75.75.75s.75-.336.75-.75V9z">
-                                </path>
-                            </g>
-                        </svg>
-                        <span><b>Create your Space</b></span>
-                    </a>
-                    <a href="#" class="popup-link">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="popup-icon" data-testid="icon">
-                            <g>
-                                <path
-                                    d="M10.54 1.75h2.92l1.57 2.36c.11.17.32.25.53.21l2.53-.59 2.17 2.17-.58 2.54c-.05.2.04.41.21.53l2.36 1.57v2.92l-2.36 1.57c-.17.12-.26.33-.21.53l.58 2.54-2.17 2.17-2.53-.59c-.21-.04-.42.04-.53.21l-1.57 2.36h-2.92l-1.58-2.36c-.11-.17-.32-.25-.52-.21l-2.54.59-2.17-2.17.58-2.54c.05-.2-.03-.41-.21-.53l-2.35-1.57v-2.92L4.1 8.97c.18-.12.26-.33.21-.53L3.73 5.9 5.9 3.73l2.54.59c.2.04.41-.04.52-.21l1.58-2.36zm1.07 2l-.98 1.47C10.05 6.08 9 6.5 7.99 6.27l-1.46-.34-.6.6.33 1.46c.24 1.01-.18 2.07-1.05 2.64l-1.46.98v.78l1.46.98c.87.57 1.29 1.63 1.05 2.64l-.33 1.46.6.6 1.46-.34c1.01-.23 2.06.19 2.64 1.05l.98 1.47h.78l.97-1.47c.58-.86 1.63-1.28 2.65-1.05l1.45.34.61-.6-.34-1.46c-.23-1.01.18-2.07 1.05-2.64l1.47-.98v-.78l-1.47-.98c-.87-.57-1.28-1.63-1.05-2.64l.34-1.46-.61-.6-1.45.34c-1.02.23-2.07-.19-2.65-1.05l-.97-1.47h-.78zM12 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5c.82 0 1.5-.67 1.5-1.5s-.68-1.5-1.5-1.5zM8.5 12c0-1.93 1.56-3.5 3.5-3.5 1.93 0 3.5 1.57 3.5 3.5s-1.57 3.5-3.5 3.5c-1.94 0-3.5-1.57-3.5-3.5z">
-                                </path>
-                            </g>
-                        </svg>
-                        <span><b>Settings and privacy</b></span>
-                    </a>
-                </div>
+            </div>
+
+
+            <div class="nav-right">
+                <button class="nav-link">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" width="18" height="18" fill="white"
+                        stroke="currentColor" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"
+                        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1gs4q39 r-1hjwoze r-12ym1je"
+                        style="color: rgb(239, 243, 244);">
+                        <g>
+                            <path
+                                d="M12 4C9.25 4 6.83 5.39 5.38 7.5H8v2H2v-6h2V6c1.82-2.43 4.73-4 8-4 5.52 0 10 4.48 10 10s-4.48 10-10 10c-4.76 0-8.74-3.33-9.75-7.78l1.95-.44C5.01 17.34 8.19 20 12 20c4.42 0 8-3.58 8-8s-3.58-8-8-8zm-1 4h2v3.59l3.21 3.2-1.42 1.42-3.79-3.8V8z">
+                            </path>
+                        </g>
+                    </svg>
+                    <span>History</span>
+                </button>
+                <button class="nav-link">
+                    <svg viewBox="0 0 20 20" aria-hidden="true" aria-hidden="true" width="18" height="18" fill="white"
+                        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1gs4q39 r-1hjwoze r-12ym1je r-1nao33i r-10ln0vt">
+                        <g>
+                            <mask fill="currentColor" id="2-a">
+                                <ellipse cx="8.334" cy="8.541" rx="1.042" ry="1.458"></ellipse>
+                            </mask>
+                            <ellipse cx="8.334" cy="8.541" fill="currentColor" rx="1.042" ry="1.458"></ellipse>
+                            <path
+                                d="M9.375 8.541H8.042c0 .157-.047.244-.056.257-.003.004.016-.026.074-.06.062-.037.157-.071.274-.071v2.666c.83 0 1.455-.473 1.82-.986.369-.514.554-1.157.554-1.806H9.375zM8.334 10V8.667c.116 0 .211.034.273.071.058.034.078.064.075.06-.01-.013-.057-.1-.057-.257H5.959c0 .649.186 1.292.553 1.806.366.513.992.986 1.822.986V10zM7.292 8.54h1.333c0-.157.047-.243.057-.256.003-.004-.017.026-.075.06-.062.036-.157.071-.273.071V5.75c-.83 0-1.456.473-1.822.985-.367.515-.553 1.158-.553 1.806h1.333zm1.042-1.458v1.333c-.117 0-.212-.035-.274-.071-.058-.034-.077-.064-.074-.06.009.013.056.1.056.256h2.666c0-.648-.185-1.29-.553-1.806-.366-.512-.991-.985-1.821-.985v1.333z"
+                                fill="currentColor" mask="url(#2-a)"></path>
+                            <mask fill="currentColor" id="2-b">
+                                <ellipse cx="11.667" cy="8.541" rx="1.042" ry="1.458"></ellipse>
+                            </mask>
+                            <ellipse cx="11.667" cy="8.541" fill="currentColor" rx="1.042" ry="1.458"></ellipse>
+                            <path
+                                d="M12.708 8.541h-1.333c0 .157-.047.244-.056.257-.003.004.016-.026.074-.06.062-.037.157-.071.274-.071v2.666c.83 0 1.455-.473 1.82-.986.369-.514.554-1.157.554-1.806h-1.333zM11.667 10V8.667c.116 0 .211.034.273.071.058.034.078.064.075.06-.01-.013-.057-.1-.057-.257H9.292c0 .649.186 1.292.553 1.806.366.513.992.986 1.822.986V10zm-1.042-1.46h1.333c0-.157.047-.243.057-.256.003-.004-.017.026-.075.06-.062.036-.157.071-.273.071V5.75c-.83 0-1.456.473-1.822.985-.367.515-.553 1.158-.553 1.806h1.333zm1.042-1.458v1.333c-.117 0-.212-.035-.274-.071-.058-.034-.077-.064-.075-.06.01.013.057.1.057.256h2.666c0-.648-.185-1.29-.553-1.806-.366-.512-.992-.985-1.821-.985v1.333z"
+                                fill="currentColor" mask="url(#2-b)"></path>
+                            <path
+                                d="M10 3.333c-6.667 0-3.27 5.601-7.5 7.5 0 1.374 1.17 1.25 1.608 2.308.367.886-.545 2.658-.775 3.525h3.334L10 17.5l3.333-.834h3.334c-.315-1.066-.993-2.38-.771-3.521.227-1.172 1.604-.86 1.604-2.312-4.23-1.899-.833-7.5-7.5-7.5z"
+                                fill="none" stroke="currentColor" stroke-width="1.333"></path>
+                        </g>
+                    </svg>
+                    <span>Private</span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- Logo -->
+            <div class="logo-container">
+                <svg width="250" height="150" viewBox="0 0 240 50" fill="white" xmlns="http://www.w3.org/2000/svg"
+                    style="margin-bottom: -90px; margin-left: 100px;">
+                    <g transform="translate(0, 5) scale(1.1)">
+                        <path
+                            d="M12.745 20.54l10.97-8.19c.539-.4 1.307-.244 1.564.38 1.349 3.288.746 7.241-1.938 9.955-2.683 2.714-6.417 3.31-9.83 1.954l-3.728 1.745c5.347 3.697 11.84 2.782 15.898-1.324 3.219-3.255 4.216-7.692 3.284-11.693l.008.009c-1.351-5.878.332-8.227 3.782-13.031L33 0l-4.54 4.59v-.014L12.743 20.544m-2.263 1.987c-3.837-3.707-3.175-9.446.1-12.755 2.42-2.449 6.388-3.448 9.852-1.979l3.72-1.737c-.67-.49-1.53-1.017-2.515-1.387-4.455-1.854-9.789-.931-13.41 2.728-3.483 3.523-4.579 8.94-2.697 13.561 1.405 3.454-.899 5.898-3.22 8.364C1.49 30.2.666 31.074 0 32l10.478-9.466">
+                        </path>
+                    </g>
+                    <text x="40" y="35" font-family="Inter, sans-serif" font-size="30" font-weight="500">Grok</text>
+                </svg>
+            </div>
+
+            <!-- Input Area -->
+            <div class="chat-input">
+                <!-- hidden file input -->
+                <input type="file" id="mediaInput" hidden />
+
+                <!-- media icon (acts as file picker) -->
+                <label for="mediaInput" class="left-btn" aria-label="Media">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path
+                            d="M14 4c-1.66 0-3 1.34-3 3v8c0 .55.45 1 1 1s1-.45 1-1V8h2v7c0 1.66-1.34 3-3 3s-3-1.34-3-3V7c0-2.76 2.24-5 5-5s5 2.24 5 5v8c0 3.87-3.13 7-7 7s-7-3.13-7-7V8h2v7c0 2.76 2.24 5 5 5s5-2.24 5-5V7c0-1.66-1.34-3-3-3z">
+                        </path>
+                    </svg>
+                </label>
+
+                <!-- text input -->
+                <input type="text" class="prompt" placeholder="Ask anything" />
+
+                <!-- submit -->
+                <button class="send-btn" aria-label="Send">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1tl9yi8 r-1janqcz r-eaessn"
+                        style="color: rgb(32, 35, 39); width: 1.5rem;">
+                        <g>
+                            <path d="M12 3.59l7.457 7.45-1.414 1.42L13 7.41V21h-2V7.41l-5.043 5.05-1.414-1.42L12 3.59z">
+                            </path>
+                        </g>
+                    </svg>
+                </button>
+            </div>
+
+
+            <!-- Action Buttons -->
+            <div class="actions-container">
+                <button class="action-btn">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" aria-hidden="true" width="18" height="18" fill="white"
+                        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1ion2gp r-10ptun7 r-1janqcz">
+                        <g>
+                            <rect fill="none" height="14" rx="3" stroke="currentColor" stroke-width="2"
+                                transform="rotate(-8 2.094 8.042)" width="14" x="2.094" y="8.042"></rect>
+                            <circle cx="12.128" cy="11.176" fill="currentColor" r="1.5"
+                                transform="rotate(-8 12.128 11.176)"></circle>
+                            <path d="M2.929 13.984c4.375-.615 8.42 2.433 9.035 6.809" stroke="currentColor"
+                                stroke-width="2"></path>
+                            <path
+                                d="M10.896 1.53c.551.031 1.223.127 2.038.241l4.358.613c.815.114 1.487.208 2.026.329.55.124 1.048.293 1.494.605l.252.192c.567.467.996 1.084 1.236 1.783l.06.193c.123.454.14.918.11 1.41-.032.552-.127 1.223-.242 2.039l-.612 4.357c-.115.815-.208 1.487-.33 2.025-.107.482-.25.924-.494 1.326l-.11.17c-.051.072-.105.141-.16.21l-.725-5.163.45-3.204c.12-.848.201-1.424.227-1.875.02-.329.005-.541-.027-.697l-.038-.14c-.12-.349-.335-.657-.618-.891l-.126-.096c-.144-.1-.358-.197-.786-.293-.44-.099-1.018-.18-1.866-.3l-4.357-.612c-.848-.12-1.424-.2-1.875-.226-.44-.025-.671.008-.837.065-.26.09-.498.232-.7.416l-2.446.344c.116-.42.273-.809.521-1.163.484-.692 1.175-1.214 1.974-1.489.515-.177 1.04-.202 1.603-.17z"
+                                fill="currentColor"></path>
+                        </g>
+                    </svg>
+                    Create Images
+                </button>
+                <button class="action-btn">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" aria-hidden="true" width="18" height="18" fill="white"
+                        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1ion2gp r-10ptun7 r-1janqcz">
+                        <g>
+                            <path
+                                d="M22.21 2.793c-1.22-1.217-3.18-1.26-4.45-.097l-10.17 9.32C5.02 12.223 3 14.376 3 17v5h5c2.62 0 4.78-2.022 4.98-4.593L22.3 7.239c1.17-1.269 1.12-3.229-.09-4.446zM8 20H5v-3c0-1.657 1.34-3 3-3s3 1.343 3 3-1.34 3-3 3zM20.83 5.888l-8.28 9.033c-.5-1.09-1.38-1.971-2.47-2.47l9.03-8.28c.48-.44 1.22-.424 1.68.036s.48 1.201.04 1.681z">
+                            </path>
+                        </g>
+                    </svg>
+                    Edit Image
+                </button>
             </div>
         </div>
+    </main>
 
-
-
-        <!-- Main Content Area -->
-        <div class="mainContainer">
-            main content
-        </div>
-    </div>
-
-     <!-- Take post container -->
-     <div id="postModal" class="modal-overlay-post display-none">
-        <div class="modal-container-post">
-            <div class="modal-header-post">
-                <button id="closePostButton" class="close-button-post">&times;</button>
-                <button class="drafts-button-post">Drafts</button>
+    <!-- Bottom Notification -->
+    <div class="notification-container">
+        <div class="notification-card">
+            <div class="notification-text">
+                <h3>Looking to code?</h3>
+                <p>Get access to more features on grok.com</p>
             </div>
-
-            <div class="modal-body-post">
-                <div class="post-content-wrapper-post">
-                    <img src="https://placehold.co/40x40/9333ea/white?text=C" alt="User avatar-post" class="avatar-post">
-                    <textarea id="post-input" class="post-textarea" placeholder="What's happening?"></textarea>
-                </div>
-                <div class="reply-settings-post">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(29, 155, 240);"><g><path d="M12 1.75C6.34 1.75 1.75 6.34 1.75 12S6.34 22.25 12 22.25 22.25 17.66 22.25 12 17.66 1.75 12 1.75zm-.25 10.48L10.5 17.5l-2-1.5v-3.5L7.5 9 5.03 7.59c1.42-2.24 3.89-3.75 6.72-3.84L11 6l-2 .5L8.5 9l5 1.5-1.75 1.73zM17 14v-3l-1.5-3 2.88-1.23c1.17 1.42 1.87 3.24 1.87 5.23 0 1.3-.3 2.52-.83 3.61L17 14z"></path></g></svg>
-                        <span>Everyone can reply</span>
-                    </div>
-            </div>
-
-            <div class="modal-footer-post">
-                <div class="toolbar-icons-post">
-                    <!-- Icons for Media, GIF, Poll, Emoji, Schedule -->
-                    <button class="icon-button-post">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(29, 155, 240);">
-                            <g>
-                                <path
-                                    d="M3 5.5C3 4.119 4.119 3 5.5 3h13C19.881 3 21 4.119 21 5.5v13c0 1.381-1.119 2.5-2.5 2.5h-13C4.119 21 3 19.881 3 18.5v-13zM5.5 5c-.276 0-.5.224-.5.5v9.086l3-3 3 3 5-5 3 3V5.5c0-.276-.224-.5-.5-.5h-13zM19 15.414l-3-3-5 5-3-3-3 3V18.5c0 .276.224.5.5.5h13c.276 0 .5-.224.5-.5v-3.086zM9.75 7C8.784 7 8 7.784 8 8.75s.784 1.75 1.75 1.75 1.75-.784 1.75-1.75S10.716 7 9.75 7z">
-                                </path>
-                            </g>
-                        </svg> </button>
-                    <button class="icon-button-post">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(29, 155, 240);">
-                            <g>
-                                <path
-                                    d="M3 5.5C3 4.119 4.12 3 5.5 3h13C19.88 3 21 4.119 21 5.5v13c0 1.381-1.12 2.5-2.5 2.5h-13C4.12 21 3 19.881 3 18.5v-13zM5.5 5c-.28 0-.5.224-.5.5v13c0 .276.22.5.5.5h13c.28 0 .5-.224.5-.5v-13c0-.276-.22-.5-.5-.5h-13zM18 10.711V9.25h-3.74v5.5h1.44v-1.719h1.7V11.57h-1.7v-.859H18zM11.79 9.25h1.44v5.5h-1.44v-5.5zm-3.07 1.375c.34 0 .77.172 1.02.43l1.03-.86c-.51-.601-1.28-.945-2.05-.945C7.19 9.25 6 10.453 6 12s1.19 2.75 2.72 2.75c.85 0 1.54-.344 2.05-.945v-2.149H8.38v1.032H9.4v.515c-.17.086-.42.172-.68.172-.76 0-1.36-.602-1.36-1.375 0-.688.6-1.375 1.36-1.375z">
-                                </path>
-                            </g>
-                        </svg> </button>
-                    <button class="icon-button-post">
-                        <svg viewBox="0 0 33 32" aria-hidden="true" style="color: rgb(29, 155, 240);"><g><path d="M12.745 20.54l10.97-8.19c.539-.4 1.307-.244 1.564.38 1.349 3.288.746 7.241-1.938 9.955-2.683 2.714-6.417 3.31-9.83 1.954l-3.728 1.745c5.347 3.697 11.84 2.782 15.898-1.324 3.219-3.255 4.216-7.692 3.284-11.693l.008.009c-1.351-5.878.332-8.227 3.782-13.031L33 0l-4.54 4.59v-.014L12.743 20.544m-2.263 1.987c-3.837-3.707-3.175-9.446.1-12.755 2.42-2.449 6.388-3.448 9.852-1.979l3.72-1.737c-.67-.49-1.53-1.017-2.515-1.387-4.455-1.854-9.789-.931-13.41 2.728-3.483 3.523-4.579 8.94-2.697 13.561 1.405 3.454-.899 5.898-3.22 8.364C1.49 30.2.666 31.074 0 32l10.478-9.466"></path></g></svg>
-                    </button>
-                    <button class="icon-button-post">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(29, 155, 240);"><g><path d="M6 5c-1.1 0-2 .895-2 2s.9 2 2 2 2-.895 2-2-.9-2-2-2zM2 7c0-2.209 1.79-4 4-4s4 1.791 4 4-1.79 4-4 4-4-1.791-4-4zm20 1H12V6h10v2zM6 15c-1.1 0-2 .895-2 2s.9 2 2 2 2-.895 2-2-.9-2-2-2zm-4 2c0-2.209 1.79-4 4-4s4 1.791 4 4-1.79 4-4 4-4-1.791-4-4zm20 1H12v-2h10v2zM7 7c0 .552-.45 1-1 1s-1-.448-1-1 .45-1 1-1 1 .448 1 1z"></path></g></svg>
-                    </button>
-                    <button class="icon-button-post">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(29, 155, 240);"><g><path d="M8 9.5C8 8.119 8.672 7 9.5 7S11 8.119 11 9.5 10.328 12 9.5 12 8 10.881 8 9.5zm6.5 2.5c.828 0 1.5-1.119 1.5-2.5S15.328 7 14.5 7 13 8.119 13 9.5s.672 2.5 1.5 2.5zM12 16c-2.224 0-3.021-2.227-3.051-2.316l-1.897.633c.05.15 1.271 3.684 4.949 3.684s4.898-3.533 4.949-3.684l-1.896-.638c-.033.095-.83 2.322-3.053 2.322zm10.25-4.001c0 5.652-4.598 10.25-10.25 10.25S1.75 17.652 1.75 12 6.348 1.75 12 1.75 22.25 6.348 22.25 12zm-2 0c0-4.549-3.701-8.25-8.25-8.25S3.75 7.451 3.75 12s3.701 8.25 8.25 8.25 8.25-3.701 8.25-8.25z"></path></g></svg>
-                    </button>
-                    <button class="icon-button-post">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(29, 155, 240);"><g><path d="M6 3V2h2v1h6V2h2v1h1.5C18.88 3 20 4.119 20 5.5v2h-2v-2c0-.276-.22-.5-.5-.5H16v1h-2V5H8v1H6V5H4.5c-.28 0-.5.224-.5.5v12c0 .276.22.5.5.5h3v2h-3C3.12 20 2 18.881 2 17.5v-12C2 4.119 3.12 3 4.5 3H6zm9.5 8c-2.49 0-4.5 2.015-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.015 4.5-4.5-2.01-4.5-4.5-4.5zM9 15.5C9 11.91 11.91 9 15.5 9s6.5 2.91 6.5 6.5-2.91 6.5-6.5 6.5S9 19.09 9 15.5zm5.5-2.5h2v2.086l1.71 1.707-1.42 1.414-2.29-2.293V13z"></path></g></svg>
-                    </button>
-                    <button class="icon-button-post">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(29, 155, 240);"><g><path d="M12 7c-1.93 0-3.5 1.57-3.5 3.5S10.07 14 12 14s3.5-1.57 3.5-3.5S13.93 7 12 7zm0 5c-.827 0-1.5-.673-1.5-1.5S11.173 9 12 9s1.5.673 1.5 1.5S12.827 12 12 12zm0-10c-4.687 0-8.5 3.813-8.5 8.5 0 5.967 7.621 11.116 7.945 11.332l.555.37.555-.37c.324-.216 7.945-5.365 7.945-11.332C20.5 5.813 16.687 2 12 2zm0 17.77c-1.665-1.241-6.5-5.196-6.5-9.27C5.5 6.916 8.416 4 12 4s6.5 2.916 6.5 6.5c0 4.073-4.835 8.028-6.5 9.27z"></path></g></svg>
-                    </button>
-                </div>
-                <button id="post-button-post" class="post-button-post" disabled>Post</button>
-            </div>
+            <button class="explore-btn">
+                Explore
+            </button>
         </div>
     </div>
+    <!-- After first message  -->
+    <!-- Chat Container -->
+    <!-- HEADER -->
+    <!-- <div class="header">
+        <div class="header-left">✕</div>
+
+        <div class="header-center"></div>
+
+        <div class="header-right"> -->
+    <!-- Share -->
+    <!-- <button class="icon-btn" aria-label="Share">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7" />
+                    <path d="M12 16V3" />
+                    <path d="M7 8l5-5 5 5" />
+                </svg>
+            </button> -->
+
+    <!-- Bookmark -->
+    <!-- <button class="icon-btn" aria-label="Bookmark">
+                <svg viewBox="0 0 24 24">
+                    <path d="M6 3h12a1 1 0 0 1 1 1v17l-7-5-7 5V4a1 1 0 0 1 1-1z" />
+                </svg>
+            </button> -->
+
+    <!-- History / Regenerate -->
+    <!-- <button class="icon-btn" aria-label="History">
+                <svg viewBox="0 0 24 24">
+                    <path d="M3 12a9 9 0 1 0 3-6.7" />
+                    <path d="M3 4v5h5" />
+                    <path d="M12 7v5l3 3" />
+                </svg>
+            </button> -->
+
+    <!-- Edit -->
+    <!-- <button class="icon-btn" aria-label="Edit">
+                <svg viewBox="0 0 24 24">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z" />
+                </svg>
+            </button>
+        </div>
+    </div> -->
+
+
+    <!-- CHAT CONTENT -->
+    <!-- <div class="chat"> -->
+
+    <!-- USER FIRST -->
+    <!-- <div class="user">
+            <span>what’s up</span>
+        </div> -->
+
+    <!-- ASSISTANT SECOND -->
+    <!-- <div class="assistant">
+            <p>
+                Yo CYRUS what's good? 😉<br><br>
+                Just chillin in the cloud, ready to talk shit or solve world problems,
+                whichever hits first tonight haha<br><br>
+                You? What's the vibe rn
+            </p>
+
+            <div class="actions">
+                <button class="action-btn" aria-label="Regenerate">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(182, 185, 188);">
+                        <g>
+                            <path
+                                d="M12 4c-4.418 0-8 3.58-8 8s3.582 8 8 8c3.806 0 6.993-2.66 7.802-6.22l1.95.44C20.742 18.67 16.76 22 12 22 6.477 22 2 17.52 2 12S6.477 2 12 2c3.272 0 6.176 1.57 8 4V3.5h2v6h-6v-2h2.616C17.175 5.39 14.749 4 12 4z">
+                            </path>
+                        </g>
+                    </svg>
+                </button>
+
+                <button class="action-btn" aria-label="Copy">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" style="color: rgb(182, 185, 188);">
+                        <g>
+                            <path
+                                d="M19.5 2C20.88 2 22 3.12 22 4.5v11c0 1.21-.86 2.22-2 2.45V4.5c0-.28-.22-.5-.5-.5H6.05c.23-1.14 1.24-2 2.45-2h11zm-4 4C16.88 6 18 7.12 18 8.5v11c0 1.38-1.12 2.5-2.5 2.5h-11C3.12 22 2 20.88 2 19.5v-11C2 7.12 3.12 6 4.5 6h11zM4 19.5c0 .28.22.5.5.5h11c.28 0 .5-.22.5-.5v-11c0-.28-.22-.5-.5-.5h-11c-.28 0-.5.22-.5.5v11z">
+                            </path>
+                        </g>
+                    </svg>
+                </button>
+
+                <button class="action-btn" aria-label="Share">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1hjwoze r-12ym1je"
+                        style="color: rgb(182, 185, 188);">
+                        <g>
+                            <path
+                                d="M12 2.59l5.7 5.7-1.41 1.42L13 6.41V16h-2V6.41l-3.3 3.3-1.41-1.42L12 2.59zM21 15l-.02 3.51c0 1.38-1.12 2.49-2.5 2.49H5.5C4.11 21 3 19.88 3 18.5V15h2v3.5c0 .28.22.5.5.5h12.98c.28 0 .5-.22.5-.5L19 15h2z">
+                            </path>
+                        </g>
+                    </svg>
+                </button>
+
+                <button class="action-btn" aria-label="Like">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1hjwoze r-12ym1je"
+                        style="color: rgb(182, 185, 188);">
+                        <g>
+                            <path
+                                d="M18.36 8h-2.68l.42-2.52C16.4 3.66 15 2 13.15 2c-1.07 0-2.06.57-2.59 1.51l-3 5.24c-.04.06-.08.11-.14.15C6.96 8.35 6.27 8 5.5 8H2v13h14.2c2.1 0 3.92-1.45 4.39-3.5l1.19-5.22C22.27 10.09 20.61 8 18.36 8zM6 19H4v-9h1.5c.27 0 .5.22.5.5V19zm13.83-7.17l-1.19 5.22C18.38 18.19 17.37 19 16.2 19H8v-8.16c.54-.2 1-.58 1.3-1.1l2.99-5.24c.18-.31.5-.5.86-.5.61 0 1.07.55.97 1.15l-.8 4.85h5.04c.97 0 1.68.89 1.47 1.83z">
+                            </path>
+                        </g>
+                    </svg> </button>
+
+                <button class="action-btn" aria-label="Dislike">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"
+                        class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-lrvibr r-m6rgpd r-1hjwoze r-12ym1je"
+                        style="color: rgb(182, 185, 188);">
+                        <g>
+                            <path
+                                d="M21.869 16h-3.5c-.77 0-1.46-.35-1.92-.9-.06.04-.1.09-.14.15l-3 5.24c-.53.94-1.52 1.51-2.59 1.51-1.85 0-3.25-1.66-2.95-3.48l.42-2.52h-2.68c-2.25 0-3.92-2.09-3.42-4.28l1.19-5.22c.46-2.05 2.29-3.5 4.39-3.5h14.2v13zm-6-11h-8.2c-1.17 0-2.18.81-2.44 1.95l-1.19 5.22c-.21.94.5 1.83 1.47 1.83h5.04l-.8 4.85c-.1.6.36 1.15.97 1.15.35 0 .68-.19.86-.5l2.99-5.24c.3-.52.76-.9 1.3-1.1V5zm2 8.5c0 .28.23.5.5.5h1.5V5h-2v8.5z">
+                            </path>
+                        </g>
+                    </svg>
+                </button>
+            </div>
+
+
+            <div class="latest">↪ Latest xAI updates</div>
+        </div>
+
+    </div> -->
 </body>
 </html>
